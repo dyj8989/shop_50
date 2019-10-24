@@ -1,5 +1,6 @@
 <template>
   <el-container class="index">
+    <!-- 头部 -->
     <el-header>
       <div class="logo">
         <img src="../assets/logo.png" alt />
@@ -12,8 +13,49 @@
         <a href="javascript:;" @click="logout">退出</a>
       </div>
     </el-header>
+
     <el-container>
-      <el-aside width="200px"></el-aside>
+      <!-- 侧边栏 -->
+      <el-aside width="200px">
+        <!-- el-menu: 主菜单
+        default-active = '2' 默认激活的导航
+        unique-opened 只保持一个打开
+        el-submenu: 子菜单
+        el-menu-item 子菜单展开内容-->
+        <el-menu background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" unique-opened>
+          <el-submenu index="1">
+            <!-- 标题 -->
+            <template v-slot:title>
+              <i class="el-icon-location"></i>
+              <span>用户管理</span>
+            </template>
+
+            <el-menu-item index="1-1">
+              <i class="el-icon-menu"></i>
+              <span slot="title">用户列表</span>
+            </el-menu-item>
+          </el-submenu>
+
+          <el-submenu index="2">
+              <!-- 标题 -->
+              <template v-slot:title>
+                <i class="el-icon-location"></i>
+                <span>权限管理</span>
+              </template>
+
+              <el-menu-item index="2-1">
+                <i class="el-icon-menu"></i>
+                <span slot="title">角色列表</span>
+              </el-menu-item>
+
+              <el-menu-item index="2-2">
+                <i class="el-icon-menu"></i>
+                <span slot="title">权限列表</span>
+              </el-menu-item>
+          </el-submenu>
+        </el-menu>
+      </el-aside>
+      <!-- 主体内容 -->
       <el-main></el-main>
     </el-container>
   </el-container>
