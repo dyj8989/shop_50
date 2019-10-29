@@ -2,22 +2,28 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../components/Login.vue'
 import Index from '../components/Index.vue'
+import Users from '../components/Users.vue'
+import Roles from '../components/Roles.vue'
+import Rights from '../components/Rights.vue'
 
 Vue.use(VueRouter)
 
-// VueRouter.beforeEach((to, from, next) => {
-//   console.log(to)
-//   const token = localStorage.getItem('token')
-//   if (to.path === 'login' || token) {
-//     next()
-//   } else {
-//     next('/login')
-//   }
-// })
+// 解决重复点击路由报错
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push (location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 const routes = [
   { path: '/', redirect: '/index' },
-  { path: '/index', component: Index, name: 'index' },
+  { path: '/index',
+    component: Index,
+    name: 'index',
+    children: [
+      { path: '/users', name: 'users', component: Users },
+      { path: '/roles', name: 'roles', component: Roles },
+      { path: '/rights', name: 'rights', component: Rights }
+    ] },
   { path: '/login', component: Login, name: 'login' }
 ]
 

@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 export default {
   data () {
     return {
@@ -77,10 +77,13 @@ export default {
         //     console.log(res.data.meta.msg)
         //   }
         // })
-        axios.post('http://localhost:8888/api/private/v1/login', this.form).then(res => {
-          const { meta, data } = res.data
+        // this.$axios.post('http://localhost:8888/api/private/v1/login', this.form).then(res => {
+        // 配置baseURL基准地址后只需输入当前接口
+        this.$axios.post('login', this.form).then(res => {
+          // 响应优化换回的response = response.data
+          const { meta, data } = res
           if (meta.status === 200) {
-            console.log(meta.msg)
+            // console.log(meta.msg)
             // 一登录成功，就存储token令牌到本地
             localStorage.setItem('token', data.token)
             this.$message({
@@ -89,7 +92,7 @@ export default {
             })
             this.$router.push({ name: 'index' })
           } else {
-            console.log(meta.msg)
+            // console.log(meta.msg)
             this.$message.error(meta.msg)
           }
         })
