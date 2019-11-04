@@ -282,7 +282,7 @@ export default {
       // console.log(data, meta)
       if (meta.status === 200) {
         this.assigData = data
-        console.log(data)
+        // console.log(data)
         // 获取所有的三级id回显
         const ids = []
         row.children.forEach(l1 => {

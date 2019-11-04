@@ -4,6 +4,13 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import router from './router'
 import axios from 'axios'
+import moment from 'moment'
+import VueQuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
+Vue.use(VueQuillEditor /* { default global options } */)
 
 // import './styles/common.css'
 
@@ -19,7 +26,7 @@ axios.defaults.baseURL = 'http://localhost:8888/api/private/v1/'
 Vue.use(ElementUI)
 // 配置请求拦截器：将每次的请求，进行拦截，可以对每次请求进行处理
 axios.interceptors.request.use(function (config) {
-  console.log(config)
+  // console.log(config)
   config.headers.Authorization = localStorage.getItem('token')
   return config
 }, function (error) {
@@ -31,7 +38,7 @@ axios.interceptors.request.use(function (config) {
 // 配置响应拦截器
 axios.interceptors.response.use(function (response) {
   // 对响应数据做点什么
-  console.log(response)
+  // console.log(response)
   response = response.data
   // 校验结果,如果响应时，发现状态码是401，说明是无效token,拦截到登录
   if (response.meta.status === 401) {
@@ -43,6 +50,12 @@ axios.interceptors.response.use(function (response) {
 }, function (error) {
 // 对响应错误做点什么
   return Promise.reject(error)
+})
+
+// -----------时间戳
+// 时间戳的规范有两种：10位的单位是秒 13位的单位是毫秒（前端）
+Vue.filter('time', function (val) {
+  return moment(val * 1000).format('YYYY-MM-DD HH:mm:ss')
 })
 new Vue({
   router,

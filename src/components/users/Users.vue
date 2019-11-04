@@ -284,7 +284,7 @@ export default {
 
     // 改变用户状态
     changeState (row) {
-      console.log(row)
+      // console.log(row)
       this.$axios.put(`users/${row.id}/state/${row.mg_state}`).then(res => {
         const { meta } = res
         if (meta.status === 200) {
@@ -332,7 +332,7 @@ export default {
 
     // 显示showEditDialog
     showEditDialog (row) {
-      console.log(row)
+      // console.log(row)
       this.editVisible = true
       this.editForm.username = row.username
       this.editForm.email = row.email
@@ -347,7 +347,7 @@ export default {
         // 校验成功
         const { id, email, mobile } = this.editForm
         const res = await this.$axios.put(`users/${id}`, { id, email, mobile })
-        console.log(res)
+        // console.log(res)
         const { msg, status } = res.meta
         if (status === 200) {
           this.$message.success(msg)
@@ -379,7 +379,7 @@ export default {
       }
       // 发送ajax请求, 获取到所有的角色, 供用户选择
       const { meta, data } = await this.$axios.get('roles')
-      console.log(data)
+      // console.log(data)
       if (meta.status === 200) {
         this.roleList = data
       } else {

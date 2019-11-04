@@ -29,23 +29,24 @@
           active-text-color="#ffd04b"
           unique-opened
           router
+          :default-active="defaultActive"
         >
-          <el-submenu index="1">
-            <!-- 标题 -->
+          <!-- <el-submenu index="1">
+            标题
             <template v-slot:title>
               <i class="el-icon-location"></i>
               <span>用户管理</span>
             </template>
-            <!-- 展开内容 -->
-            <!-- 解析式，会将配置的路径，当成绝对路径使用，写的是users=>/users -->
+            展开内容
+            解析式，会将配置的路径，当成绝对路径使用，写的是users=>/users
             <el-menu-item index="users">
               <i class="el-icon-menu"></i>
               <span slot="title">用户列表</span>
             </el-menu-item>
-          </el-submenu>
+          </el-submenu>-->
 
-          <el-submenu index="2">
-            <!-- 标题 -->
+          <!-- <el-submenu index="2">
+            标题
             <template v-slot:title>
               <i class="el-icon-location"></i>
               <span>权限管理</span>
@@ -60,6 +61,19 @@
               <i class="el-icon-menu"></i>
               <span template>权限列表</span>
             </el-menu-item>
+          </el-submenu>-->
+
+          <el-submenu :index="menu.path" v-for="menu in menuList" :key="menu.id">
+            <!-- 标题 -->
+            <template v-slot:title>
+              <i class="el-icon-location"></i>
+              <span>{{ menu.authName }}</span>
+            </template>
+
+            <el-menu-item :index="item.path" v-for="item in menu.children" :key="item.id">
+              <i class="el-icon-menu"></i>
+              <span slot="title">{{ item.authName }}</span>
+            </el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>
@@ -73,6 +87,29 @@
 
 <script>
 export default {
+  data () {
+    return {
+      menuList: []
+    }
+  },
+  async created () {
+    const { data, meta } = await this.$axios.get('menus')
+    // console.log(data, meta)
+    if (meta.status === 200) {
+      // this.$message.success(meta.msg)
+      this.menuList = data
+    } else {
+      this.$message.error(meta.msg)
+    }
+  },
+  computed: {
+    defaultActive () {
+      // 如何获取当前路由的相关信息？？this.$route
+      // this.$route拿到当前相关的信息对象（路径，参数）
+      // return console.log(this.$route.path)
+      return this.$route.path.slice(1)
+    }
+  },
   methods: {
     logout () {
       // 调用$confirm方法即可打开消息提示，它模拟了系统的 confirm。Message Box 组件也拥有极高的定制性，我们可以传入options作为第三个参数，它是一个字面量对象。type字段表明消息类型，可以为success，error，info和warning，无效的设置将会被忽略。注意，第二个参数title必须定义为String类型，如果是Object，会被理解为options。在这里我们用了 Promise 来处理后续响应。

@@ -2,9 +2,12 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../components/Login.vue'
 import Index from '../components/Index.vue'
-import Users from '../components/Users.vue'
-import Roles from '../components/Roles.vue'
-import Rights from '../components/Rights.vue'
+import Users from '../components/users/Users.vue'
+import Roles from '../components/rights/Roles.vue'
+import Rights from '../components/rights/Rights.vue'
+import Categories from '../components/products/Categories.vue'
+import Goods from '../components/products/Goods.vue'
+import GoodsAdd from '../components/products/GoodsAdd.vue'
 
 Vue.use(VueRouter)
 
@@ -22,7 +25,10 @@ const routes = [
     children: [
       { path: '/users', name: 'users', component: Users },
       { path: '/roles', name: 'roles', component: Roles },
-      { path: '/rights', name: 'rights', component: Rights }
+      { path: '/rights', name: 'rights', component: Rights },
+      { path: '/categories', name: 'categories', component: Categories },
+      { path: '/goods', name: 'goods', component: Goods },
+      { path: '/goods-add', name: 'goodsAdd', component: GoodsAdd }
     ] },
   { path: '/login', component: Login, name: 'login' }
 ]
@@ -38,7 +44,7 @@ const router = new VueRouter({
 // 如果已经登录过了, 有token, 不需要拦截
 // 如果不是去登陆, 且没有 token, 拦截到登录页
 router.beforeEach((to, from, next) => {
-  console.log(to)
+  // console.log(to)
   const token = localStorage.getItem('token')
   if (to.path === '/login' || token) {
     next()

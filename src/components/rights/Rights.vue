@@ -39,7 +39,7 @@ export default {
       const { meta, data } = res
       if (meta.status === 200) {
         this.rightsList = data
-        console.log(data)
+        // console.log(data)
       }
     }
   }
